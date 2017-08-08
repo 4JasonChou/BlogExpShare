@@ -28,7 +28,7 @@ class JsonHelper
         else
         {
             let res = myclass.init(str: jsonString,obj:nil);
-            res.SetJsonClassInit();
+            res.SetJsonClassInit_FromStr();
             return res ;
         }
         
