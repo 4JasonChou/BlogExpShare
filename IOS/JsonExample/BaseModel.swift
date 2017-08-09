@@ -23,11 +23,23 @@ class BaseModel : NSObject {
                 let json = try JSONSerialization.jsonObject(with: jsonData, options: []) as! [String: AnyObject]
                 for (key, value) in json {
                     let keyName = key as String
-                    let keyValue: String = value as! String
-                    
-                    if (self.responds(to: NSSelectorFromString(keyName))) {
-                        self.setValue(keyValue, forKey: keyName)
+                    if let tmp = value as? Float64
+                    {
+                        SetValueInClass(keyValue:tmp,keyName:keyName)
+                    } 
+					else if let tmp = value as? String
+                    {
+                        SetValueInClass(keyValue:tmp,keyName:keyName)
+                    } 
+					else if let tmp = value as? Int64
+                    {
+                        SetValueInClass(keyValue:tmp,keyName:keyName)
                     }
+					else
+					{
+						//Pass... You Can Add Other Type
+					}
+
                 }
                 
             } catch let error as NSError {
@@ -40,6 +52,14 @@ class BaseModel : NSObject {
         }
     }
     
+	 private func SetValueInClass(keyValue:Any,keyName:String){
+        if (self.responds(to: NSSelectorFromString(keyName))) {
+            self.setValue(keyValue, forKey: keyName)
+        }
+
+    }
+
+	
     public func SetJsonClassInit_FromObj(){
         
         for (key, value) in jsonObj! {
